@@ -38,6 +38,8 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
     logger_streamhandler = logging.StreamHandler()
     logger_streamhandler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(logger_streamhandler)
+    return logger
 
 def get_db():
     username = getenv("PERSONAL_DATA_DB_USERNAME", "root")

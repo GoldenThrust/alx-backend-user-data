@@ -6,6 +6,7 @@ Main file
 import logging
 
 get_logger = __import__('filtered_logger').get_logger
-main = __import__('filtered_logger').main
+PII_FIELDS = __import__('filtered_logger').PII_FIELDS
 
-main()
+print(get_logger.__annotations__.get('return'))
+print("PII_FIELDS: {}".format(len(PII_FIELDS)))
