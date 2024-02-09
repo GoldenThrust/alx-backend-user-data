@@ -50,11 +50,17 @@ def get_db():
     )
 
 def main():
-    db = get_db()
-    cursor = db.cursor()
     logger = logging.getLogger()
-    cursor.execute("SELECT * FROM users;")
     
+    with get_db() as db, db.cursor() as cursor:
+        cursor.execute("SELECT * FROM users;")
+        
+        name = [desc[0] for desc in cursor.description]
+        
+        for row in cursor:
+            fields = [f"{column}={value}" for column, value in zip(name, row)]
+            row_str = "; ".join(fields)
+            logger.info(row_str)
 
 
 if __name__ == "__main__":
