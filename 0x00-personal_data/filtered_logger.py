@@ -9,16 +9,19 @@ from mysql import connector
 
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
-def filter_datum(fields: List, redaction: str, message: str, separator: str) -> str:
+
+def filter_datum(fields: List, redaction: str,
+                 message: str, separator: str) -> str:
+    """Filter sensitive information in the log message."""
     for field in fields:
-        message = re.sub(f"{field}=[^{separator}]*", f"{field}={redaction}", message)
+        message = re.sub(f"{field}=[^{separator}]*",
+                         f"{field}={redaction}", message)
 
     return message
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
+    """Redacting Formatter class"""
 
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
@@ -30,9 +33,12 @@ class RedactingFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         string = super().format(record)
-        return filter_datum(self.fields, self.REDACTION, string, self.SEPARATOR)
+        return filter_datum(self.fields,
+                            self.REDACTION, string, self.SEPARATOR)
 
-def get_logger() -> logging.Logger:
+
+def get_logger():
+    """Get a configured logger for user_data with redacted PII."""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
@@ -41,7 +47,9 @@ def get_logger() -> logging.Logger:
     logger.addHandler(logger_streamhandler)
     return logger
 
+
 def get_db():
+    """Get a connection to the personal data database."""
     username = getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
     hostname = getenv("PERSONAL_DATA_DB_HOST", "localhost")
@@ -51,14 +59,16 @@ def get_db():
         user=username, password=password, host=hostname, database=dbname
     )
 
+
 def main():
+    """Main function to execute the script."""
     logger = get_logger()
-    
+
     with get_db() as db, db.cursor() as cursor:
         cursor.execute("SELECT * FROM users;")
-        
+
         name = [desc[0] for desc in cursor.description]
-        
+
         for row in cursor:
             field = [f"{column}={value}" for column, value in zip(name, row)]
             fields = "; ".join(field)
