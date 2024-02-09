@@ -58,9 +58,10 @@ def main():
         name = [desc[0] for desc in cursor.description]
         
         for row in cursor:
-            fields = [f"{column}={value}" for column, value in zip(name, row)]
-            row_str = "; ".join(fields)
-            logger.info(row_str)
+            field = [f"{column}={value}" for column, value in zip(name, row)]
+            fields = "; ".join(field)
+            print(field)
+            logger.info(fields)
 
 
 if __name__ == "__main__":
