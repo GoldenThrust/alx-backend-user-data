@@ -10,7 +10,7 @@ from mysql import connector
 PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
-def filter_datum(fields: List, redaction: str,
+def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """Filter sensitive information in the log message."""
     for field in fields:
@@ -27,17 +27,19 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields: List):
+    def __init__(self, fields: List[str]):
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        string = super().format(record)
+        """formats a LogRecord.
+        """
+        message = super().format(record)
         return filter_datum(self.fields,
-                            self.REDACTION, string, self.SEPARATOR)
+                            self.REDACTION, message, self.SEPARATOR)
 
 
-def get_logger():
+def get_logger() -> logging.Logger:
     """Get a configured logger for user_data with redacted PII."""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
@@ -48,12 +50,12 @@ def get_logger():
     return logger
 
 
-def get_db():
+def get_db()-> connector.connection.MySQLConnection:
     """Get a connection to the personal data database."""
     username = getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
     hostname = getenv("PERSONAL_DATA_DB_HOST", "localhost")
-    dbname = getenv("PERSONAL_DATA_DB_NAME")
+    dbname = getenv("PERSONAL_DATA_DB_NAME", "")
 
     return connector.connect(
         user=username, password=password, host=hostname, database=dbname
