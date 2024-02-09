@@ -50,7 +50,7 @@ def get_db():
     )
 
 def main():
-    logger = logging.getLogger()
+    logger = get_logger()
     
     with get_db() as db, db.cursor() as cursor:
         cursor.execute("SELECT * FROM users;")
@@ -60,7 +60,6 @@ def main():
         for row in cursor:
             field = [f"{column}={value}" for column, value in zip(name, row)]
             fields = "; ".join(field)
-            print(field)
             logger.info(fields)
 
 
