@@ -48,3 +48,14 @@ def get_db():
     return connector.connect(
         user=username, password=password, host=hostname, database=dbname
     )
+
+def main():
+    db = get_db()
+    cursor = db.cursor()
+    logger = logging.getLogger()
+    cursor.execute("SELECT * FROM users;")
+    
+
+
+if __name__ == "__main__":
+    main()
