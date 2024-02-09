@@ -50,7 +50,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db()-> connector.connection.MySQLConnection:
+def get_db() -> connector.connection.MySQLConnection:
     """Get a connection to the personal data database."""
     username = getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = getenv("PERSONAL_DATA_DB_PASSWORD", "")
