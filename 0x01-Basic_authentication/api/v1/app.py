@@ -19,15 +19,17 @@ auth = None
 
 if os.getenv("AUTH_TYPE") == "basic_auth":
     auth = BasicAuth()
-
-if os.getenv("AUTH_TYPE") == "auth":
+elif os.getenv("AUTH_TYPE") == "auth":
     auth = Auth()
 
 
 @app.before_request
 def before_request():
     """This method is called before the request is process."""
-    if auth is None or not auth.require_auth(
+    if auth is None or None:
+        return None
+
+    if auth.require_auth(
         request.path, [
             "/api/v1/status/",
             "/api/v1/unauthorized/",
