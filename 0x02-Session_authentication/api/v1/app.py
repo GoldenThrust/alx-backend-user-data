@@ -32,7 +32,7 @@ def before_request():
     """This method is called before the request is process."""
     if auth is None or None:
         return None
-    
+
     user = auth.current_user(request)
 
     if auth.require_auth(
