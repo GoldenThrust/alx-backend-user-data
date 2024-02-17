@@ -12,10 +12,9 @@ from flask import jsonify, abort, request
 @app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
 def login() -> Tuple[str, int]:
     """login routes"""
-
     email = request.form.get("email")
     password = request.form.get("password")
-    print("email")
+    print(email)
     if email is None:
         return jsonify({"error": "email missing"}), 400
     if password is None:
