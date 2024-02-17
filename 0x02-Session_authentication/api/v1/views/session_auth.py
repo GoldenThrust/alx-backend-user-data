@@ -23,7 +23,7 @@ def login() -> Tuple[str, int]:
     all_users = User.all()
 
     for user in all_users:
-        print(user)
+        print(user.email, user.id, user.password)
 
     if not users:
         return jsonify({"error": "no user found for this email"}), 404
