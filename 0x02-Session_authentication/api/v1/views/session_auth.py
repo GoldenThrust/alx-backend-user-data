@@ -20,7 +20,9 @@ def login() -> Tuple[str, int]:
         return jsonify({"error": "password missing"}), 400
 
     users = User.search({"email": email})
-    for user in User.all():
+    all_users = User.all()
+
+    for user in all_users:
         print(user)
 
     if not users:
