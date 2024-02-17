@@ -14,13 +14,13 @@ def login() -> Tuple[str, int]:
     """login routes"""
     email = request.form.get("email")
     password = request.form.get("password")
-    print(email)
     if email is None:
         return jsonify({"error": "email missing"}), 400
     if password is None:
         return jsonify({"error": "password missing"}), 400
 
     users = User.search({"email": email})
+    print(users)
 
     if not users:
         return jsonify({"error": "no user found for this email"}), 404
