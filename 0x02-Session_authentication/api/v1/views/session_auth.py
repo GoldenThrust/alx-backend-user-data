@@ -35,5 +35,7 @@ def login() -> Tuple[str, int]:
 
     session_id = auth.create_session(users[0].get("id"))
     response = jsonify(users[0].to_json())
-    response.set_cookie(getenv("SESSION_NAME"), session_id)
+    ses_name = getenv("SESSION_NAME")
+    print(ses_name)
+    # response.set_cookie(, session_id)
     return response
