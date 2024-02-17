@@ -22,6 +22,7 @@ def login() -> Tuple[str, int]:
         return jsonify({"error": "password missing"}), 400
 
     users = User.search({"email": email})
+    print(users)
 
     if not users:
         return jsonify({"error": "no user found for this email"}), 404
