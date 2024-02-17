@@ -25,3 +25,8 @@ class SessionAuth(Auth):
             return None
 
         return self.user_id_by_session_id.get(session_id)
+
+    def current_user(self, request=None):
+        """Return the current user id"""
+        user_id = self.user_id_for_session_id(self.session_cookie(request))
+        return user_id
