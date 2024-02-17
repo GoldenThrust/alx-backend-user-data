@@ -3,13 +3,14 @@
 """
 import requests
 from os import getenv
+from typing import Tuple
 from models.user import User
 from api.v1.views import app_views
 from flask import jsonify, abort, request
 
 
-@app_views.route('/auth_session/login', methods=["POST"], strict_slashes=False)
-def login():
+@app_views.route("/auth_session/login", methods=["POST"], strict_slashes=False)
+def login() -> Tuple[str, int]:
     """login routes"""
 
     email = request.form.get("email")
