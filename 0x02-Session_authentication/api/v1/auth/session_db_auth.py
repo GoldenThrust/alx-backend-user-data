@@ -18,8 +18,13 @@ class SessionDBAuth(SessionExpAuth):
             return None
 
         session_id = super().create_session(user_id)
-        new_user_session = UserSession(user_id=user_id, session_id=session_id)
-        new_user_session.save()
+        if session_id is None:
+            return None
+
+        user_session = UserSession()
+        user_session.user_id = user_id
+        user_session.session_id = session_id
+        user_session.save()
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
@@ -31,7 +36,7 @@ class SessionDBAuth(SessionExpAuth):
         if not user_session:
             return None
 
-        user = user_session[0].to_json()
+        user = user_session[0]
 
         if self.session_duration <= 0:
             return user.get("user_id")
