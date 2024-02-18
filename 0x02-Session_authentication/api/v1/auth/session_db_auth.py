@@ -14,10 +14,10 @@ class SessionDBAuth(SessionExpAuth):
 
     def create_session(self, user_id=None):
         """creates a session"""
-        if user_id is None or not isinstance(user_id, str):
-            return None
-
         session_id = super().create_session(user_id)
+
+        if not session_id:
+            return None
 
         user_session = UserSession()
         user_session.user_id = user_id
@@ -29,9 +29,9 @@ class SessionDBAuth(SessionExpAuth):
         """Returns the user id for a given session id."""
         if session_id is None or not isinstance(session_id, str):
             return None
-
-        user_session = UserSession.search({"session_id": session_id})
-        if not user_session:
+        try:
+            user_session = UserSession.search({"session_id": session_id})
+        except Exception:
             return None
 
         user = user_session[0]
