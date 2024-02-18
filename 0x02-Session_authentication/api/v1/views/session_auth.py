@@ -33,3 +33,14 @@ def login() -> Tuple[str, int]:
     response = jsonify(users[0].to_json())
     response.set_cookie(getenv("SESSION_NAME"), session_id)
     return response
+
+
+@app_views.route('/auth_session/logout', methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """ logout routes"""
+    from api.v1.app import auth
+    destroyed_session_id = auth.destroy_session(request)
+    if destroyed_session_id is False:
+        abort(404)
+    return {}, 200
