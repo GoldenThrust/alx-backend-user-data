@@ -15,12 +15,6 @@ def login() -> Tuple[str, int]:
     email = request.form.get("email")
     password = request.form.get("password")
 
-    user = User(email=email, password=password)
-    user.save()
-
-    for user in User.all():
-        print(user.email)
-
     if not email:
         return jsonify({"error": "email missing"}), 400
     if not password:
@@ -42,8 +36,7 @@ def login() -> Tuple[str, int]:
     return response
 
 
-@app_views.route("/auth_session/logout", methods=["DELETE"],
-                 strict_slashes=False)
+@app_views.route("/auth_session/logout", methods=["DELETE"], strict_slashes=False)
 def logout():
     """logout routes"""
     from api.v1.app import auth
