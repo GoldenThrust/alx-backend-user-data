@@ -15,6 +15,9 @@ def login() -> Tuple[str, int]:
     email = request.form.get("email")
     password = request.form.get("password")
 
+    user = User(email=email, password=password)
+    user.save()
+
     for user in User.all():
         print(user.email)
 
