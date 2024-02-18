@@ -14,6 +14,10 @@ def login() -> Tuple[str, int]:
     """login routes"""
     email = request.form.get("email")
     password = request.form.get("password")
+
+    for user in User.all():
+        print(user.email)
+
     if not email:
         return jsonify({"error": "email missing"}), 400
     if not password:
