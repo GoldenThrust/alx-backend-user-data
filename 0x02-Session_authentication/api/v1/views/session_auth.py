@@ -33,7 +33,8 @@ def login() -> Tuple[str, int]:
 
     from api.v1.app import auth
 
-    session_id = auth.create_session(users[0].get("id"))
+    session_id = auth.create_session(users[0].id)
+    print(session_id)
     response = jsonify(users[0].to_json())
     ses_name = getenv("SESSION_NAME")
     print(ses_name)
