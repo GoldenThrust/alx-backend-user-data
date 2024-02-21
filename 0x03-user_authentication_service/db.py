@@ -28,7 +28,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def user(self, email: str, hashed_password: str):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """_summary_
 
         Args:
@@ -36,7 +36,7 @@ class DB:
             hashed_password (str): _description_
 
         Returns:
-            _type_: _description_
+            User: _description_
         """
         user = None
         try:
@@ -48,7 +48,7 @@ class DB:
 
         return user
 
-    def find_user_by(self, **kwargs):
+    def find_user_by(self, **kwargs) -> User:
         """_summary_
 
         Raises:
@@ -56,7 +56,7 @@ class DB:
             NoResultFound: _description_
 
         Returns:
-            _type_: _description_
+            User: _description_
         """
         users = self._session.query(User)
         for key, value in kwargs.items():
