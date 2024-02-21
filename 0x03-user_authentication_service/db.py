@@ -64,6 +64,6 @@ class DB:
                 raise InvalidRequestError
 
             for user in users:
-                if getattr(user, key) == v:
+                if getattr(user, key) == value:
                     return user
         raise NoResultFound
