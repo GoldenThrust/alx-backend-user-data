@@ -47,7 +47,7 @@ class DB:
             self._session.rollback()
 
         return user
-    
+
     def find_user_by(self, **kwargs):
         """_summary_
 
@@ -62,7 +62,7 @@ class DB:
         for key, value in kwargs.items():
             if not hasattr(User, key):
                 raise InvalidRequestError
-            
+
             for user in users:
                 if getattr(user, key) == v:
                     return user
