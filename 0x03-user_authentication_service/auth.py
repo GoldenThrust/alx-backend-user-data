@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Auth"""
+import bcrypt
 from db import DB
 from user import User
-import bcrypt
 
-def _hash_password(password) -> bytes:
+def _hash_password(password: str) -> bytes:
     """_summary_
 
     Args:
@@ -13,7 +13,7 @@ def _hash_password(password) -> bytes:
     Returns:
         bytes: _description_
     """
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt)
+    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
 
 
