@@ -32,7 +32,7 @@ def users() -> str:
     except ValueError:
         return jsonify({"message": "email already registered"}), 400
 
-    return jsonify({"email": "{}", "message": "user created".format(email)})
+    return jsonify({"email": "{}".format(email), "message": "user created"})
 
 
 @app.route("/sessions", methods=["POST"], strict_slashes=False)
@@ -44,7 +44,7 @@ def login() -> str:
         abort(401)
 
     session_id = AUTH.create_session(email)
-    response = jsonify({"email": "{}", "message": "logged in".format(email)})
+    response = jsonify({"email": "{}".format(email), "message": "logged in"})
     response.set_cookie("session_id", session_id)
     return response
 
@@ -97,8 +97,8 @@ def get_reset_password_token() -> str:
     except ValueError:
         abort(403)
 
-    return jsonify({"email": "{}", "reset_token": "{}".format(
-        email, reset_token)})
+    return jsonify({"email": "{}".format(email),
+                    "reset_token": "{}".format(email)})
 
 
 @app.route("/reset_password", methods=["PUT"], strict_slashes=False)
@@ -117,8 +117,7 @@ def update_password() -> str:
     except ValueError:
         abort(403)
 
-    return jsonify({"email": "{}", "message": "Password updated".format(
-        email)})
+    return jsonify({"email": "{}".format(email), "message": "Password updated"})
 
 
 if __name__ == "__main__":
