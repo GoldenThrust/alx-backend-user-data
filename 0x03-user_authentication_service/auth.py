@@ -86,7 +86,7 @@ class Auth:
             return None
 
         session_id = _generate_uuid()
-        self._db.update_user(id=user.id, session_id=session_id)
+        self._db.update_user(user.id, session_id=session_id)
         return session_id
 
     def get_user_from_session_id(self, session_id: str) -> Optional[User]:
@@ -116,7 +116,7 @@ class Auth:
             user_id (int): _description_
         """
         try:
-            user = self._db.update_user(id=user_id, session_id=None)
+            user = self._db.update_user(user_id, session_id=None)
         except ValueError:
             pass
 
