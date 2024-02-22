@@ -39,3 +39,15 @@ class Auth:
         except Exception:
             return self._db.add_user(email=email, hashed_password=password)
         raise ValueError("User {} already exists".format(email))
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """_summary_
+
+        Args:
+            email (str): _description_
+            password (str): _description_
+
+        Returns:
+            bool: _description_
+        """
+        pass
