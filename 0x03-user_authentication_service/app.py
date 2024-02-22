@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 from auth import Auth
 
 app = Flask(__name__)
@@ -33,6 +33,55 @@ def users() -> str:
         return jsonify({"message": "email already registered"}), 400
 
     return jsonify({"email": "{}", "message": "user created".format(email)})
+
+
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
+def login() -> str:
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    if not AUTH.valid_login(email, password):
+        abort(401)
+
+    session_id = AUTH.create_session(email)
+    response = jsonify({"email": "{}", "message": "logged in".format(email)})
+    response.set_cookie("session_id", session_id)
+    return response
+
+
+@app.route("/sessions", methods=["DELETE"], strict_slashes=False)
+def logout():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
+    session_id = request.cookies.get("session_id", None)
+
+    user = AUTH.get_user_from_session_id(session_id)
+
+    if not user:
+        abort(403)
+
+    AUTH.destroy_session(user.id)
+    return redirect("/")
+
+
+@app.route("/profile", methods=["GET"], strict_slashes=False)
+def profile() -> str:
+    """_summary_
+
+    Returns:
+        str: _description_
+    """
+    session_id = request.cookies.get("session_id")
+
+    user = AUTH.get_user_from_session_id(session_id)
+
+    if not user:
+        abort(403)
+
+    return jsonify({"email": "{}".format(user.email)}), 200
 
 
 if __name__ == "__main__":
