@@ -98,7 +98,7 @@ def get_reset_password_token() -> str:
         abort(403)
 
     return jsonify({"email": f"{email}",
-                    "reset_token": f"{email}"})
+                    "reset_token": f"{reset_token}"})
 
 
 @app.route("/reset_password", methods=["PUT"], strict_slashes=False)
