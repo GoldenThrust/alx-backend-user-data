@@ -122,7 +122,7 @@ class Auth:
 
         return None
 
-    def get_reset_password_token(email: str) -> None:
+    def get_reset_password_token(self, email: str) -> str:
         """_summary_
 
         Args:
