@@ -30,8 +30,7 @@ def _generate_uuid() -> str:
 
 
 class Auth:
-    """Auth class to interact with the authentication database.
-    """
+    """Auth class to interact with the authentication database."""
 
     def __init__(self):
         self._db = DB()
@@ -50,8 +49,9 @@ class Auth:
             self._db.find_user_by(email=email)
         except Exception:
 
-            return self._db.add_user(email=email,
-                                     hashed_password=_hash_password(password))
+            return self._db.add_user(
+                email=email, hashed_password=_hash_password(password)
+            )
         raise ValueError("User {} already exists".format(email))
 
     def valid_login(self, email: str, password: str) -> bool:
@@ -106,7 +106,7 @@ class Auth:
             user = self._db.find_user_by(session_id=session_id)
         except NoResultFound:
             pass
-        
+
         return user
 
     def destroy_session(self, user_id: int) -> None:
