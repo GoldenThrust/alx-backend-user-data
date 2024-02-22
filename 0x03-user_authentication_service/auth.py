@@ -71,7 +71,7 @@ class Auth:
 
         return bcrypt.checkpw(password.encode("utf-8"), user.hashed_password)
 
-    def create_session(email: str) -> str:
+    def create_session(self, email: str) -> str:
         """_summary_
 
         Args:
@@ -109,7 +109,7 @@ class Auth:
         
         return user
 
-    def destroy_session(user_id: int) -> None:
+    def destroy_session(self, user_id: int) -> None:
         """_summary_
 
         Args:
